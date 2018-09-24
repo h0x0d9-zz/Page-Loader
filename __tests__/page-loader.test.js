@@ -9,7 +9,7 @@ import loader from '../src';
 
 describe('Page Loader', () => {
   const uri = 'http://ru.hexlet.io';
-  const expectedFilename = 'ru-hexlet-io.html'
+  const expectedFilename = 'ru-hexlet-io.html';
   const data = '<html><head></head><body>test data</body></html>';
 
   beforeAll(() => {
@@ -32,16 +32,12 @@ describe('Page Loader', () => {
 
   it('Load wrong uri', async () => {
     expect.assertions(1);
-
     const tempDir = await promises.mkdtemp(join(os.tmpdir(), sep));
-
     await expect(loader('wrong', tempDir)).rejects.toEqual({ status: 404 });
   });
 
   it('Load simple page to non-existed dir', async () => {
     expect.assertions(1);
-    const tempDir = await promises.mkdtemp(join(os.tmpdir(), sep));
-
     await expect(loader(uri, 'wrong')).rejects.toEqual({ code: 'ENOENT' });
   });
 });

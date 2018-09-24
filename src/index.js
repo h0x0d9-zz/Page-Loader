@@ -10,5 +10,5 @@ axios.defaults.adapter = httpAdapter;
 // @flow
 
 export default (sourceLink: string, destPath: string = './') => {
-  log('TEST');
+  log(sourceLink, destPath);
 };
