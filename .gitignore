@@ -1,0 +1,8 @@
+/node_modules/
+*.log
+dist
+flow-typed
+.tern-port
+.idea
+.vscode
+coverage/
