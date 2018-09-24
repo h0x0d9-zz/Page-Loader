@@ -9,7 +9,10 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 
-script: make lint test
+script: 
+  - make lint
+  - make check-types
+  - make test
 
 after_script:
  - ./cc-test-reporter after-build -t "lcov" -p "./coverage" --exit-code $TRAVIS_TEST_RESULT
