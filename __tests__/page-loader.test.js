@@ -17,8 +17,6 @@ describe('Page Loader', () => {
   });
 
   it('Load simple page', async () => {
-    expect.assertions(2);
-
     nock(host)
       .get(pageUri)
       .reply(200, data);
@@ -34,8 +32,6 @@ describe('Page Loader', () => {
   });
 
   it('Load broken uri', async () => {
-    expect.assertions(1);
-
     nock(host)
       .get('/wrong')
       .reply(404);
@@ -49,8 +45,6 @@ describe('Page Loader', () => {
   });
 
   it('Load simple page to no entity directory', async () => {
-    expect.assertions(1);
-
     nock(host)
       .get('/')
       .reply(200, data);

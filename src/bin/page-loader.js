@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import program from 'commander';
-import loader from '..';
+import load from '..';
 
 program
   .version('0.0.1')
@@ -9,7 +9,7 @@ program
   .arguments('<sourceLink>')
   .option('-o, --output [destFolder]', 'target path to save source page')
   .action(
-    sourceLink => loader(sourceLink, program.output)
+    sourceLink => load(sourceLink, program.output)
       .then(res => console.info('File %o was saved', res))
       .catch((err) => {
         const e = new Error(err);

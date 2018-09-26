@@ -4,7 +4,7 @@ import url from 'url';
 import debug from 'debug';
 import { promises } from 'fs';
 import { resolve as resolvePath } from 'path';
-import axios from './axiosWrapper';
+import axios from './lib/axios';
 
 const log = debug('loader:app');
 
@@ -17,7 +17,7 @@ const createFilename = (link: string, ext: string): string => {
   const { host, pathname } = url.parse(link);
   const newPathname = pathname && pathname.length === 1 ? '' : pathname;
   const filename = [host, newPathname]
-    .join('').replace(/[^a-zA-Z0-9]/gi, '-');
+    .join('').replace(/\W|_/gi, '-');
 
   log('result filename = %o', filename);
 
@@ -35,8 +35,5 @@ export default (sourceLink: string, destDir: string = './'): Promise<any> => {
   return promises.readdir(destDir, 'utf8')
     .then(() => fetchData(sourceLink))
     .then(data => saveFile(path, data))
-    .then(() => path)
-    .catch((err) => {
-      throw err;
-    });
+    .then(() => path);
 };
