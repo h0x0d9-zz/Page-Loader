@@ -1,19 +1,19 @@
 {
   "name": "page-loader",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "bin": {
     "page-loader": "dist/bin/page-loader.js"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "test": "jest",
+    "test": "DEBUG=loader:* jest",
     "watch": "jest --watch",
     "babel-node": "babel-node",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
@@ -31,14 +31,7 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "collectCoverage": true,
-    "modulePathIgnorePatterns": [
-      "<rootDir>/__tests__/__fixtures__/"
-    ],
-    "watchPathIgnorePatterns": [
-      "<rootDir>/node_modules/",
-      "<rootDir>/dist/"
-    ]
+    "collectCoverage": true
   },
   "homepage": "https://github.com/h0x0d9/project-lvl3-s322#readme",
   "dependencies": {
@@ -60,9 +53,9 @@
     "eslint": "^5.6.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-babel": "^5.2.0",
-    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-flowtype": "^2.50.1",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^21.22.0",
+    "eslint-plugin-jest": "^21.22.1",
     "eslint-plugin-lodash-fp": "^2.2.0-a1",
     "flow-bin": "^0.81",
     "flow-typed": "^2.5.1",

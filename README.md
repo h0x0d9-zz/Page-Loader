@@ -10,6 +10,8 @@ The application downloads web page to your computer, and allows you to view them
 ## Setup
 
 ```sh
+$ git clone git@github.com:h0x0d9/project-lvl3-s322.git
+$ cd project-lvl3-s322
 $ make install
 $ make build
 $ npm link
@@ -18,7 +20,7 @@ $ npm link
 ## Run
 
 ```sh
-$ npm link page-loader --help
+$ page-loader --help
 ```
 
 ## Asciinema
