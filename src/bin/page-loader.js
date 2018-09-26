@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-// @flow
 
 import program from 'commander';
 import loader from '..';

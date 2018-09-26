@@ -24,3 +24,4 @@ $ page-loader --help
 ```
 
 ## Asciinema
+[https://asciinema.org/a/yHghJ4bNXHwGUo6GzCOmGhJzR](https://asciinema.org/a/yHghJ4bNXHwGUo6GzCOmGhJzR)
