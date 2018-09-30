@@ -114,11 +114,9 @@ export default (sourceLink: string, destDir: string = './'): Promise<any> => {
       });
 
       const processedHtml = localizeLinks(html, links, assetsDirName);
-      saveFile(destPath, processedHtml);
-      promises.mkdir(assetsPath);
-      return links;
+      return saveFile(destPath, processedHtml).then(() => links);
     })
+    .then(links => promises.mkdir(assetsPath).then(() => links))
     .then(links => pullAssets(links, sourceLink, assetsPath))
-    .then(results => log(results))
     .then(() => destPath);
 };

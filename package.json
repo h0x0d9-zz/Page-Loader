@@ -1,6 +1,6 @@
 {
   "name": "page-loader",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "",
   "main": "dist/index.js",
   "bin": {
@@ -13,7 +13,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "DEBUG=loader:* jest",
+    "test": "DEBUG=page-loader jest",
     "watch": "jest --watch",
     "babel-node": "babel-node",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
