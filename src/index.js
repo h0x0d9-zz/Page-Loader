@@ -6,6 +6,7 @@ import { promises } from 'fs';
 import path from 'path';
 import cheerio from 'cheerio';
 import axios from './lib/axios';
+import getErrorMsg from './lib/core/errno';
 
 const log = debug('page-loader');
 
@@ -55,10 +56,15 @@ const pullAssets = (assetsLinks: string[],
         return [fullLink, true];
       })
       .catch((e) => {
-        if (e.response && e.response.status === 404) {
-          log('Asset %o was not found on %o', link, assetsHost);
+        if (e.response) {
+          console.error(`Failed to load asset ${fullLink}. The server responded with a status of ${e.response.status}`);
           return [fullLink, false];
         }
+        if (e.request) {
+          console.error(`No respons was received from ${fullLink}. it may not be valid`);
+          return [fullLink, false];
+        }
+
         throw e;
       });
   };
@@ -118,5 +124,10 @@ export default (sourceLink: string, destDir: string = './'): Promise<any> => {
     })
     .then(links => promises.mkdir(assetsPath).then(() => links))
     .then(links => pullAssets(links, sourceLink, assetsPath))
-    .then(() => destPath);
+    .then(() => destPath)
+    .catch((e) => {
+      const msg = !e.response ? getErrorMsg(e) : `Failed to load page: ${sourceLink}. The server responded with a status of ${e.response.status}`;
+      console.error(msg);
+      throw new Error(msg);
+    });
 };

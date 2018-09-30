@@ -10,11 +10,10 @@ program
   .option('-o, --output [destFolder]', 'target path to save source page')
   .action(
     sourceLink => load(sourceLink, program.output)
-      .then(res => console.info('File %o was saved', res))
-      .catch((err) => {
-        const e = new Error(err);
-        console.error(e.message);
-        process.exit(1);
-      }),
+      .then((res) => {
+        console.info('Page was downloaded as %o', res);
+        process.exit(0);
+      })
+      .catch(() => process.exit(1)),
   )
   .parse(process.argv);
