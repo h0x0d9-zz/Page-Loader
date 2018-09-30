@@ -7,7 +7,7 @@ import path from 'path';
 import cheerio from 'cheerio';
 import axios from './lib/axios';
 
-const log = debug('loader:app');
+const log = debug('page-loader');
 
 const tagsFilter = {
   link: 'href',
