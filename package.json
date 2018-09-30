@@ -1,6 +1,6 @@
 {
   "name": "page-loader",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "main": "dist/index.js",
   "bin": {
@@ -31,15 +31,20 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/__fixtures__"
+    ]
   },
   "homepage": "https://github.com/h0x0d9/project-lvl3-s322#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
     "commander": "^2.18.0",
+    "debug": "^4.0.1",
     "errno": "^0.1.7",
-    "lodash": "^4.17.11",
-    "debug": "^4.0.1"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
