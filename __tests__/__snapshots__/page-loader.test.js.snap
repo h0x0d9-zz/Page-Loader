@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Handle errors Load unavailable page (status is different from 200) 1`] = `"Failed to load page: http://ru.hexlet.io/unavailable. The server responded with a status of 405"`;
+
+exports[`Handle errors No response from server 1`] = `"Invalid address http://noServer.local"`;
+
+exports[`Handle errors URL is not valid 1`] = `"No connection for ."`;
+
+exports[`Handle errors URL is not valid 2`] = `"No connection for /"`;
+
+exports[`Handle errors URL is not valid 3`] = `"No connection for localhost"`;
