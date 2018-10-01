@@ -123,7 +123,6 @@ export default (sourceLink: string, destDir: string = './'): Promise<any> => {
       const msg = e.response
         ? `Failed to load page: ${sourceLink}. The server responded with a status of ${e.response.status}`
         : getErrorMsg(e);
-      console.error(msg);
       throw new Error(msg);
     })
     .then(() => destPath);

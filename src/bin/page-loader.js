@@ -14,6 +14,6 @@ program
         console.info('Page was downloaded as %o', res);
         process.exit(0);
       })
-      .catch(() => process.exit(1)),
+      .catch(e => console.error(e), process.exit(1)),
   )
   .parse(process.argv);
