@@ -5,10 +5,13 @@ import debug from 'debug';
 import { promises } from 'fs';
 import path from 'path';
 import cheerio from 'cheerio';
+import Listr from 'listr';
 import axios from './lib/axios';
 import getErrorMsg from './lib/core/errno';
 
 const log = debug('page-loader');
+
+const renderer = process.argv[2];
 
 const tagsFilter = {
   link: 'href',
@@ -38,39 +41,31 @@ const createAssetPath = (link: string, destDir: string): string => {
   return filePath;
 };
 
-
 const pullAssets = (assetsLinks: string[],
   assetsHost: string, destDir: string): Promise<[string, boolean][]> => {
-  const pull = (link: string): Promise<[string, boolean]> => {
-    const fullLink = url.resolve(assetsHost, link);
-    const filePath = createAssetPath(link, destDir);
+  const tasks = new Listr(assetsLinks.map(link => ({
+    title: link,
+    task: () => {
+      const fullLink = url.resolve(assetsHost, link);
+      const filePath = createAssetPath(link, destDir);
 
-    log('Starting fetch asset %o (%o)', link, fullLink);
-    return fetchData(fullLink)
-      .then((data) => {
-        log('Asset %o successfull fetched', link);
-        return promises.writeFile(filePath, data);
-      })
-      .then(() => {
-        log('Asset %o successfull saved to %o', link, filePath);
-        return [fullLink, true];
-      })
-      .catch((e) => {
-        if (e.response) {
-          console.error(`Failed to load asset ${fullLink}. The server responded with a status of ${e.response.status}`);
-          return [fullLink, false];
-        }
-        if (e.request) {
-          console.error(`No respons was received from ${fullLink}. it may not be valid`);
-          return [fullLink, false];
-        }
-
-        throw e;
-      });
-  };
+      log('Starting fetch asset %o (%o)', link, fullLink);
+      return fetchData(fullLink)
+        .then((data) => {
+          log('Asset %o successfull fetched', link);
+          return promises.writeFile(filePath, data);
+        })
+        .catch((e) => {
+          const msg = e.response
+            ? `Failed to load ${fullLink}. The server responded with a status of ${e.response.status}`
+            : e;
+          throw new Error(msg);
+        });
+    },
+  })), { exitOnError: false, renderer });
 
   log('Starting pull assets %o from host %o to %o', assetsLinks, assetsHost, destDir);
-  return Promise.all(assetsLinks.map(pull));
+  return tasks.run().catch(() => Promise.resolve());
 };
 
 const localizeLinks = (html: string, links: string[], destDir: string): string => {
@@ -124,10 +119,12 @@ export default (sourceLink: string, destDir: string = './'): Promise<any> => {
     })
     .then(links => promises.mkdir(assetsPath).then(() => links))
     .then(links => pullAssets(links, sourceLink, assetsPath))
-    .then(() => destPath)
     .catch((e) => {
-      const msg = !e.response ? getErrorMsg(e) : `Failed to load page: ${sourceLink}. The server responded with a status of ${e.response.status}`;
+      const msg = e.response
+        ? `Failed to load page: ${sourceLink}. The server responded with a status of ${e.response.status}`
+        : getErrorMsg(e);
       console.error(msg);
       throw new Error(msg);
-    });
+    })
+    .then(() => destPath);
 };
